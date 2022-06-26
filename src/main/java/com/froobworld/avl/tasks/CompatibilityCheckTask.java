@@ -21,7 +21,6 @@ public class CompatibilityCheckTask implements Runnable {
 
     @Override
     public void run() {
-        Bukkit.getLogger().info(VERSION);
         try {
             Class.forName("org.bukkit.craftbukkit." + VERSION + ".entity.memory.CraftMemoryMapper").getMethod("toNms", Object.class).invoke(null, (Object) null);
         } catch (InvocationTargetException e) {

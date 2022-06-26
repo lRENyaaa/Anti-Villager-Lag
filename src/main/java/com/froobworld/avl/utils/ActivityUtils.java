@@ -38,7 +38,8 @@ public class ActivityUtils {
     private static Object SCHEDULE_VILLAGER_BABY;
     static {
         boolean newApi = Integer.parseInt(VERSION.split("_")[1]) >= 17;
-        boolean leastApi = Integer.parseInt(VERSION.split("_")[1]) >= 18;
+        boolean Api_1_18 = Integer.parseInt(VERSION.split("_")[1]) >= 18;
+        boolean leastApi = Integer.parseInt(VERSION.split("_")[1]) >= 19;
 
         try {
             String behaviorControllerClass = newApi ? "net.minecraft.world.entity.ai.BehaviorController" : "net.minecraft.server." + VERSION + ".BehaviorController";
@@ -47,10 +48,11 @@ public class ActivityUtils {
             String entityLivingClass = newApi ? "net.minecraft.world.entity.EntityLiving" : "net.minecraft.server." + VERSION + ".EntityLiving";
 
             VILLAGER_GET_HANDLE_METHOD = Class.forName("org.bukkit.craftbukkit." + VERSION + ".entity.CraftVillager").getMethod("getHandle");
-            VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD = Class.forName(entityLivingClass).getMethod(leastApi ? "dt" : "getBehaviorController");
-            BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD = Class.forName(behaviorControllerClass).getMethod(leastApi ? "b" : "getSchedule");
+            VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD = Class.forName(entityLivingClass).getMethod(Api_1_18 ? (leastApi ? "dz" : "du") : "getBehaviorController");
+
+            BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD = Class.forName(behaviorControllerClass).getMethod(Api_1_18 ? "b" : "getSchedule");
             CURRENT_ACTIVITY_METHOD = Class.forName(scheduleClass).getMethod("a", int.class);
-            SET_SCHEDULE_METHOD = Class.forName(behaviorControllerClass).getMethod(leastApi ? "a" : "setSchedule", Class.forName(scheduleClass));
+            SET_SCHEDULE_METHOD = Class.forName(behaviorControllerClass).getMethod(Api_1_18 ? "a" : "setSchedule", Class.forName(scheduleClass));
 
             Map<String, String> activitiesFieldNameMap = new HashMap<>();
             activitiesFieldNameMap.put("v1_14_R1", "g");
